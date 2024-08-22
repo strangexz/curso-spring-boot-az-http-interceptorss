@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@Component
+@Component("loadingTimeInterceptor")
 public class LoadingTimeInterceptor implements HandlerInterceptor{
 
 	private static final Logger logger = LoggerFactory.getLogger(LoadingTimeInterceptor.class);
