@@ -38,6 +38,7 @@ public class LoadingTimeInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
+		
 		HandlerMethod methodName = ((HandlerMethod) handler);
 		logger.info("LoadingTimeInterceptor: postHandle() saliendo del metodo -> "
 				+ methodName.getMethod().getName());
