@@ -1,5 +1,7 @@
 package hn.com.jf.interceptors;
 
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -18,19 +20,32 @@ public class LoadingTimeInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		HandlerMethod methodName = ((HandlerMethod) handler);
 		logger.info("LoadingTimeInterceptor: pretHandle() entrando al metodo -> "
-				+ ((HandlerMethod) handler).getMethod().getName());
+				+ methodName.getMethod().getName());
+		
+		long start = System.currentTimeMillis();
+		request.setAttribute("start", start);
+		
+		Random random = new Random();
+		int delay = random.nextInt(500);
+		Thread.sleep(delay);
+		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
-		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+		HandlerMethod methodName = ((HandlerMethod) handler);
 		logger.info("LoadingTimeInterceptor: postHandle() saliendo del metodo -> "
-				+ ((HandlerMethod) handler).getMethod().getName());
+				+ methodName.getMethod().getName());
+		
+		long end = System.currentTimeMillis();
+		long start = (long) request.getAttribute("start");
+		long result = end - start;
+		logger.info("Tiempo trascurrido: " + result + " milisegundos");
 	}
 
 }
